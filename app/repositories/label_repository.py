@@ -1,4 +1,4 @@
-from sqlmodel import Session, select, delete
+from sqlmodel import Session, select, delete, asc
 from app.models.label import Label, NoteLabelLink
 from app.models.share import LabelShare
 
@@ -10,8 +10,13 @@ class LabelRepository:
 
 
 
+    def get(self, label_id: int) -> Label | None:
+        return self.db.get(Label, label_id)
+
+
+
     def list_by_user(self, owner_id: int) -> list[Label]:
-        query = select(Label).where(Label.owner_id == owner_id).order_by(Label.name.asc())
+        query = select(Label).where(Label.owner_id == owner_id).order_by(asc(Label.name))
 
         return self.db.exec(query).all()
 

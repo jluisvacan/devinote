@@ -1,4 +1,4 @@
-from sqlmodel import Session, select, delete
+from sqlmodel import Session, select, delete, desc
 from app.models.label import NoteLabelLink
 from app.models.note import Note
 
@@ -11,7 +11,7 @@ class NoteRepository:
 
 
     def list_owned(self, owner_id: int) -> list[Note]:
-        query = select(Note).where(Note.owner_id == owner_id).order_by(Note.id.desc())
+        query = select(Note).where(Note.owner_id == owner_id).order_by(desc(Note.id))
         return self.db.exec(query).all()
 
 
@@ -59,4 +59,4 @@ class NoteRepository:
         if not ids:
             return []
 
-        return self.db.exec(select(Note).where(Note.id.in_(ids))).all
+        return self.db.exec(select(Note).where(Note.id.in_(ids))).all()

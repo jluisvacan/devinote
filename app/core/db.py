@@ -11,5 +11,5 @@ def init_db() -> None:
 
 
 def get_session() -> Iterator[Session]:
-    with Session(engine) as session:
+     with Session(engine) as session:
         yield session

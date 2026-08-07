@@ -30,11 +30,11 @@ class ShareRepository:
 
 
 
-    def remove_note_share(self, note_id: int, user_id: int, role: str) -> None:
-        share = self.db.exec(
-            delete(NoteShare).where(NoteShare.note_id == note_id, NoteShare.user_id == user_id)).first()
+    def remove_note_share(self, note_id: int, user_id: int) -> None:
+        self.db.exec(
+            delete(NoteShare).where(NoteShare.note_id == note_id, NoteShare.user_id == user_id))
 
-        self.db.delete(share)
+        self.db.commit()
 
 
 
@@ -58,11 +58,11 @@ class ShareRepository:
 
 
 
-    def remove_label_share(self, label_id: int, user_id: int, role: str) -> None:
-        share = self.db.exec(
-            delete(LabelShare).where(LabelShare.label_id == label_id, LabelShare.user_id == user_id)).first()
+    def remove_label_share(self, label_id: int, user_id: int) -> None:
+        self.db.exec(
+            delete(LabelShare).where(LabelShare.label_id == label_id, LabelShare.user_id == user_id))
 
-        self.db.delete(share)
+        self.db.commit()
 
 
 
@@ -97,7 +97,7 @@ class ShareRepository:
 
     def list_note_ids_shared_directly(self, user_id: int) -> list[int]:
 
-        return self.db.exec(select(NoteShare).where(NoteShare.user_id == user_id)).all()
+        return self.db.exec(select(NoteShare.note_id).where(NoteShare.user_id == user_id)).all()
 
         # return [row[0] if isinstance(row, tuple) else row for row in rows]
 
@@ -106,5 +106,5 @@ class ShareRepository:
     def list_label_ids_shared_with_user(self, user_id: int) -> list[int]:
 
         return self.db.exec(
-            select(LabelShare.label_id). where(LabelShare.user_id == user_id)
+            select(LabelShare.label_id).where(LabelShare.user_id == user_id)
         ).all()

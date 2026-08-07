@@ -4,6 +4,7 @@ from sqlmodel import SQLModel, Field
 
 
 class Note(SQLModel, table=True):
+    __tablename__ = "note"
     id: int = Field(default=None, primary_key=True)
     title: str
     content: str = ""
@@ -31,5 +32,4 @@ class NoteRead(SQLModel):
     title: str
     content: str
     color: Optional[str]
-    label_ids: Optional[list[int]]
-    #model_config = {"from_attributes": True}
+    model_config = {"from_attributes": True}
