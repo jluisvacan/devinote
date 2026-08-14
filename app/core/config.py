@@ -9,6 +9,7 @@ class Settings(BaseSettings):
     JWT_SECRET: str = Field(..., validation_alias="JWT_SECRET")
     JWT_ALG: str = Field(default="HS256", validation_alias="JWT_ALG")
     JWT_EXPIRES_MIN: int = Field(default=60*24, validation_alias="JWT_EXPIRES_MIN")
-    PROJECT_NAME: str = "devinote"
+    PROJECT_NAME: str = "devinote",
+    ENVIRONMENT: str = Field(..., validation_alias="ENVIRONMENT")
 
 settings = Settings()

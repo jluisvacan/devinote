@@ -18,7 +18,8 @@ load_dotenv()
 #lo que este despues de yield  se ejecuta cuando la app se apaga
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    init_db()
+    if settings.ENVIRONMENT == "DEV":
+        init_db()
     yield
 
 app = FastAPI(
